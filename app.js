@@ -5,7 +5,7 @@ const inputs = process.argv;
 const execPath = inputs[0];
 const filePath = inputs[1];
 const command = inputs[2];
-const aditionalArgs = inputs[3];
+const aditionalArgs = inputs.slice(3).join(" ");
 
 // si no existe el archivo JSON lo creamos
 if (!fs.existsSync("tasks.json")) {
@@ -24,13 +24,16 @@ function getNextId(tasks) {
 const id_task = getNextId(tasks);
 
 function deleteTask(id) {
-  // 1. Leer el archivo
   // 2. Filtrar todas las que no tengan ese id
   const updatedTasks = tasks.filter((t) => t.id !== id);
   // 3. Guardar el nuevo arreglo
   fs.writeFileSync("tasks.json", JSON.stringify(updatedTasks, null, 2));
+}
 
-  console.log(`Tarea con ID ${id} eliminada.`);
+function showAllTasks(tasks) {
+  tasks.forEach((t) => {
+    console.log(t.description);
+  });
 }
 
 // function getStatus(id_task){
@@ -54,7 +57,7 @@ switch (command) {
     break;
 
   case "list":
-    console.log(`Listando tareas...`);
+    showAllTasks(tasks);
     break;
 
   case "update":
@@ -62,7 +65,8 @@ switch (command) {
     break;
 
   case "delete":
-    console.log("delete");
+    const id = Number(aditionalArgs);
+    deleteTask(id);
     break;
 
   default:
