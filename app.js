@@ -21,8 +21,6 @@ function getNextId(tasks) {
   return maxId + 1;
 }
 
-const id_task = getNextId(tasks);
-
 function deleteTask(id) {
   // 2. Filtrar todas las que no tengan ese id
   const updatedTasks = tasks.filter((t) => t.id !== id);
@@ -36,13 +34,30 @@ function showAllTasks(tasks) {
   });
 }
 
-// function getStatus(id_task){
-//     const status =
-// }
-//  obtenemos el siguiente ID task
+function showInProgressTasks() {
+  const inProgressTasks = tasks.filter((task) => task.status === "in progress");
+  inProgressTasks.forEach((p) => {
+    console.log(p.description);
+  });
+}
+
+function showDoneTasks() {
+  const inProgressTasks = tasks.filter((task) => task.status === "done");
+  inProgressTasks.forEach((p) => {
+    console.log(p.description);
+  });
+}
+
+function showTodoTasks() {
+  const inProgressTasks = tasks.filter((task) => task.status === "todo");
+  inProgressTasks.forEach((p) => {
+    console.log(p.description);
+  });
+}
 
 switch (command) {
   case "add":
+    const id_task = getNextId(tasks);
     const newTask = {
       id: id_task,
       description: aditionalArgs,
@@ -58,6 +73,18 @@ switch (command) {
 
   case "list":
     showAllTasks(tasks);
+    break;
+
+  case "list todo":
+    showTodoTasks();
+    break;
+
+  case "list in-progress":
+    showInProgressTasks();
+    break;
+
+  case "list done":
+    showDoneTasks();
     break;
 
   case "update":

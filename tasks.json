@@ -1,1 +1,23 @@
-[]
+[
+  {
+    "id": 1,
+    "description": "read a book",
+    "status": "todo",
+    "createdAt": "2025-08-16T03:55:12.724Z",
+    "updatedAt": "2025-08-16T03:55:12.744Z"
+  },
+  {
+    "id": 2,
+    "description": "play xbox",
+    "status": "in progress",
+    "createdAt": "2025-08-16T03:55:24.778Z",
+    "updatedAt": "2025-08-16T03:55:24.780Z"
+  },
+  {
+    "id": 3,
+    "description": "cook dinner",
+    "status": "done",
+    "createdAt": "2025-08-16T03:56:14.287Z",
+    "updatedAt": "2025-08-16T03:56:14.288Z"
+  }
+]
