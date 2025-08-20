@@ -1,11 +1,10 @@
 import fs from "fs";
 
-// guardar los datos de entrada en variables
-const inputs = process.argv;
-const execPath = inputs[0];
-const filePath = inputs[1];
-const command = inputs[2];
-const aditionalArgs = inputs.slice(3).join(" ");
+const args = process.argv.slice(2);
+const command = args[0];
+
+// args[0] = command
+// args[1] = id or description
 
 // si no existe el archivo JSON lo creamos
 if (!fs.existsSync("tasks.json")) {
@@ -22,10 +21,15 @@ function getNextId(tasks) {
 }
 
 function deleteTask(id) {
-  // 2. Filtrar todas las que no tengan ese id
   const updatedTasks = tasks.filter((t) => t.id !== id);
-  // 3. Guardar el nuevo arreglo
+
+  if (updatedTasks.length === tasks.length) {
+    console.log("⚠️ No se encontró ninguna tarea con ese ID");
+    return;
+  }
+
   fs.writeFileSync("tasks.json", JSON.stringify(updatedTasks, null, 2));
+  console.log(`Tarea con el ID ${id} eliminada`);
 }
 
 function showAllTasks(tasks) {
@@ -55,12 +59,24 @@ function showTodoTasks() {
   });
 }
 
+function updateTask(id, newDescription) {
+  const taskToEdit = tasks.find((t) => t.id === id);
+  if (!taskToEdit) return console.log("No existe una tarea con ese ID");
+
+  taskToEdit.description = newDescription;
+  taskToEdit.updatedAt = new Date().toISOString();
+
+  fs.writeFileSync("tasks.json", JSON.stringify(tasks, null, 2));
+  console.log(`Tarea con ID ${id} actualizada`);
+}
+
 switch (command) {
   case "add":
+    const descriptionTask = args.slice(1).join(" ");
     const id_task = getNextId(tasks);
     const newTask = {
       id: id_task,
-      description: aditionalArgs,
+      description: descriptionTask,
       status: "todo",
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
@@ -88,14 +104,36 @@ switch (command) {
     break;
 
   case "update":
-    console.log("update");
+    const idNumberUpdate = Number(args[1]);
+    if (isNaN(idNumberUpdate)) {
+      console.log("Ingresa un ID válido");
+      break;
+    }
+
+    const newDescription = args.slice(2).join(" ");
+
+    updateTask(idNumberUpdate, newDescription);
     break;
 
   case "delete":
-    const id = Number(aditionalArgs);
-    deleteTask(id);
+    const idNumber = Number(args[1]);
+    if (isNaN(idNumber)) {
+      console.log("Ingresa un ID válido");
+      break;
+    }
+    deleteTask(idNumber);
     break;
 
   default:
     console.log("Comando no reconocido");
 }
+
+//  add - listo
+//  delete - listo
+//  list - listo
+//  update - listo
+//  list done -
+//  list todo -
+//  list in progress -
+//  mark in progress -
+//  mark done -
