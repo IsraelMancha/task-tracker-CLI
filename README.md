@@ -1,5 +1,3 @@
-Perfecto Isra 🙌, te lo preparo **completo y listo para copiar y pegar** en tu repo de GitHub. Aquí tienes el `README.md` en inglés:
-
 ````markdown
 # Task CLI Manager
 
