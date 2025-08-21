@@ -22,8 +22,8 @@ All tasks are stored in a `tasks.json` file.
 Clone the repository and install dependencies:
 
 ```bash
-git clone https://github.com/your-username/task-cli-manager.git
-cd task-cli-manager
+git clone https://github.com/IsraelMancha/task-tracker-CLI.git
+cd task-tracker-CLI
 npm install
 ```
 ````
