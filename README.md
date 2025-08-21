@@ -112,4 +112,4 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 
 ## Project URL
 
-https://github.com/IsraelMancha/task-tracker-CLI
+https://roadmap.sh/projects/task-tracker
