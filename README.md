@@ -109,3 +109,7 @@ node app.js mark-in-progress 3
 ## 🤝 Contributing
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+## Project URL
+
+https://github.com/IsraelMancha/task-tracker-CLI
