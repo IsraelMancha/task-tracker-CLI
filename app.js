@@ -38,27 +38,6 @@ function showAllTasks(tasks) {
   });
 }
 
-function showInProgressTasks() {
-  const inProgressTasks = tasks.filter((task) => task.status === "in progress");
-  inProgressTasks.forEach((p) => {
-    console.log(p.description);
-  });
-}
-
-function showDoneTasks() {
-  const inProgressTasks = tasks.filter((task) => task.status === "done");
-  inProgressTasks.forEach((p) => {
-    console.log(p.description);
-  });
-}
-
-function showTodoTasks() {
-  const inProgressTasks = tasks.filter((task) => task.status === "todo");
-  inProgressTasks.forEach((p) => {
-    console.log(p.description);
-  });
-}
-
 function updateTask(id, newDescription) {
   const taskToEdit = tasks.find((t) => t.id === id);
   if (!taskToEdit) return console.log("No existe una tarea con ese ID");
@@ -68,6 +47,20 @@ function updateTask(id, newDescription) {
 
   fs.writeFileSync("tasks.json", JSON.stringify(tasks, null, 2));
   console.log(`Tarea con ID ${id} actualizada`);
+}
+
+function markTask(id, newStatus) {
+  const task = tasks.find((t) => t.id === id);
+  if (!task) return console.log(`No existe el ID ${id}`);
+
+  if (task.status === newStatus) {
+    return console.log(`La tarea ya está en estado "${newStatus}"`);
+  }
+
+  task.status = newStatus;
+  task.updatedAt = new Date().toISOString();
+  fs.writeFileSync("tasks.json", JSON.stringify(tasks, null, 2));
+  console.log(`Tarea con ID ${id} marcada como "${newStatus}"`);
 }
 
 switch (command) {
@@ -88,19 +81,21 @@ switch (command) {
     break;
 
   case "list":
-    showAllTasks(tasks);
-    break;
+    const statusFilter = args[1];
+    if (!statusFilter) {
+      showAllTasks(tasks);
+    } else {
+      const filtered = tasks.filter((t) => t.status === statusFilter);
 
-  case "list todo":
-    showTodoTasks();
-    break;
-
-  case "list in-progress":
-    showInProgressTasks();
-    break;
-
-  case "list done":
-    showDoneTasks();
+      if (!filtered.length) {
+        console.log(`No hay tareas en estado ${statusFilter}`);
+        break;
+      } else {
+        filtered.forEach((task) => {
+          console.log(task.description);
+        });
+      }
+    }
     break;
 
   case "update":
@@ -109,10 +104,9 @@ switch (command) {
       console.log("Ingresa un ID válido");
       break;
     }
-
     const newDescription = args.slice(2).join(" ");
-
     updateTask(idNumberUpdate, newDescription);
+
     break;
 
   case "delete":
@@ -122,18 +116,16 @@ switch (command) {
       break;
     }
     deleteTask(idNumber);
+
+    break;
+
+  case "mark-in-progress":
+    markTask(Number(args[1]), "in-progress");
+    break;
+  case "mark-done":
+    markTask(Number(args[1]), "done");
     break;
 
   default:
     console.log("Comando no reconocido");
 }
-
-//  add - listo
-//  delete - listo
-//  list - listo
-//  update - listo
-//  list done -
-//  list todo -
-//  list in progress -
-//  mark in progress -
-//  mark done -
